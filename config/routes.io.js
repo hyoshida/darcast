@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var Message = mongoose.model('Message');
+var sanitize = require('validator');
 
 module.exports = function(app) {
 
@@ -29,7 +30,7 @@ module.exports = function(app) {
   app.io.route('talk', function(req) {
     user_name = ipaddress(req);
     User.findOne({ name: user_name }, function(err, user) {
-      message_body = req.data;
+      message_body = sanitize.escape(req.data);
 
       message = new Message({ user: user, body: message_body });
       message.save();
