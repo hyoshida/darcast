@@ -12,8 +12,15 @@ block js
       io.emit('ready');
 
       // Listen for talk event.
-      io.on('talk', function(message) {
-        $('#messages').prepend(message + '<br>');
+      io.on('talk', function(data) {
+        $('#messages').prepend('@' + data.user_name + ': ' + data.message + '<br>');
+      });
+
+      // Listen for talk.log event.
+      io.on('talk.log', function(data) {
+        $.each(data, function() {
+          $('#messages').prepend('@' + this.user_name + ': ' + this.message + '<br>');
+        });
       });
 
       // Emit talk event.
