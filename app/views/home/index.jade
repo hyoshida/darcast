@@ -1,4 +1,33 @@
 extends ../layout
 
+block js
+  script(src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js")
+  script(src="/socket.io/socket.io.js")
+
+  script.
+    $(function() {
+      io = io.connect();
+
+      // Emit ready event.
+      io.emit('ready');
+
+      // Listen for talk event.
+      io.on('talk', function(message) {
+        $('#messages').prepend(message + '<br>');
+      });
+
+      // Emit talk event.
+      $('form').submit(function(event) {
+        // stop form from submitting normally
+        event.preventDefault();
+
+        message = $('input').val();
+        io.emit('talk', message);
+        $('input').val('');
+      });
+    });
+
 block content
-  h1 I'm using generator-express MVC!
+  form
+    input
+  #messages

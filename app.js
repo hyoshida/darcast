@@ -1,4 +1,4 @@
-var express = require('express'),
+var express = require('express.io'),
   mongoose = require('mongoose'),
   fs = require('fs'),
   config = require('./config/config');
@@ -17,8 +17,10 @@ fs.readdirSync(modelsPath).forEach(function (file) {
 });
 
 var app = express();
+app.http().io();
 
 require('./config/express')(app, config);
 require('./config/routes')(app);
+require('./config/routes.io')(app);
 
 app.listen(config.port);
