@@ -8,9 +8,13 @@ var MessageSchema = new Schema({
   created_at: Date
 });
 
+MessageSchema.set('capped', { max: 5000 });
 MessageSchema.pre('save', function(next) {
   if (!this.created_at) this.created_at = new Date;
   next();
 });
 
-mongoose.model('Message', MessageSchema);
+var Message = mongoose.model('Message', MessageSchema);
+Message.collection.isCapped(function (err, isCapped) {
+  if (err) throw new Error('failed to create a capped collection');
+});
