@@ -9,7 +9,7 @@ module.exports = function(app) {
     return req.handshake.headers['x-forwarded-for'] || req.handshake.address.address;
   }
 
-  app.io.route('ready', function(req) {
+  app.io.sockets.on('connection', function(req) {
     user_name = ipaddress(req);
 
     user = new User({ name: user_name });
@@ -24,7 +24,7 @@ module.exports = function(app) {
       app.io.broadcast('talk.log', talks);
     });
 
-    console.log('ready: @' + user_name);
+    console.log('connection: @' + user_name);
   });
 
   app.io.route('talk', function(req) {

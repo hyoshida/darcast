@@ -7,9 +7,6 @@ block append js
     $(function() {
       io = io.connect();
 
-      // Emit ready event.
-      io.emit('ready');
-
       // Listen for talk event.
       io.on('talk', function(data) {
         $('#messages').prepend('@' + data.user_name + ': ' + data.message + '<br>');
