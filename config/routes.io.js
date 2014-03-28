@@ -36,7 +36,7 @@ module.exports = function(app) {
         user = message.user;
         talks.push({ user_name: user.name, message: message.body, created_at: datestring(message.created_at) });
       });
-      app.io.broadcast('talk.log', talks);
+      req.emit('talk.log', talks);
     });
 
     console.log('connection: @' + user_name);
