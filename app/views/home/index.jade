@@ -16,6 +16,14 @@ block append js
       });
     }
 
+    function youtubeify($target) {
+      $target.find('a').html(function(_, html) {
+        var pattern  = /(?:http:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=)?(.+)/g;
+        var video = '<iframe width="320" height="240" src="http://www.youtube.com/embed/$1" frameborder="0" allowfullscreen></iframe>';
+        return html.replace(pattern, video);
+      });
+    }
+
     $(function() {
       io = io.connect();
 
@@ -24,6 +32,7 @@ block append js
         $('#messages').prepend('<strong>@' + data.user_name + ': </strong>' + data.message + '<br>');
         $('#messages').linkify();
         imageify($('#messages'));
+        youtubeify($('#messages'));
       });
 
       // Listen for talk.log event.
@@ -33,6 +42,7 @@ block append js
         });
         $('#messages').linkify();
         imageify($('#messages'));
+        youtubeify($('#messages'));
       });
 
       // Emit talk event.
