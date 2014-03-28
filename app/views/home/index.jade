@@ -10,6 +10,7 @@ block append js
       // Listen for talk event.
       io.on('talk', function(data) {
         $('#messages').prepend('<strong>@' + data.user_name + ': </strong>' + data.message + '<br>');
+        $('#messages').linkify();
       });
 
       // Listen for talk.log event.
@@ -17,6 +18,7 @@ block append js
         $.each(data, function() {
           $('#messages').prepend('<strong>@' + this.user_name + ': </strong>' + this.message + '<br>');
         });
+        $('#messages').linkify();
       });
 
       // Emit talk event.
