@@ -24,25 +24,35 @@ block append js
       });
     }
 
+    function createMessageElement(data) {
+      var $name = $('<strong/>').attr('class', 'name').text('@' + data.user_name + ': ');
+      var $body = $('<span/>').attr('class', 'body').text(data.message);
+
+      $body.linkify();
+      imageify($body);
+      youtubeify($body);
+
+      return $('<div/>')
+        .attr('class', 'message')
+        .append($name)
+        .append($body);
+    }
+
     $(function() {
       io = io.connect();
 
       // Listen for talk event.
       io.on('talk', function(data) {
-        $('#messages').prepend('<strong>@' + data.user_name + ': </strong>' + data.message + '<br>');
-        $('#messages').linkify();
-        imageify($('#messages'));
-        youtubeify($('#messages'));
+        var $message = createMessageElement(data);
+        $('#messages').prepend($message);
       });
 
       // Listen for talk.log event.
       io.on('talk.log', function(data) {
         $.each(data, function() {
-          $('#messages').prepend('<strong>@' + this.user_name + ': </strong>' + this.message + '<br>');
+          var $message = createMessageElement(this);
+          $('#messages').prepend($message);
         });
-        $('#messages').linkify();
-        imageify($('#messages'));
-        youtubeify($('#messages'));
       });
 
       // Emit talk event.
