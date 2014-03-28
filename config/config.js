@@ -8,7 +8,7 @@ var config = {
     app: {
       name: 'anpub-chat'
     },
-    port: 3000,
+    port: 8000,
     db: 'mongodb://localhost/anpub-chat-development'
   },
 
@@ -17,7 +17,7 @@ var config = {
     app: {
       name: 'anpub-chat'
     },
-    port: 3000,
+    port: 8000,
     db: 'mongodb://localhost/anpub-chat-test'
   },
 
@@ -26,7 +26,7 @@ var config = {
     app: {
       name: 'anpub-chat'
     },
-    port: 3000,
+    port: 8000,
     db: 'mongodb://localhost/anpub-chat-production'
   }
 };
