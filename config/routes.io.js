@@ -15,7 +15,7 @@ module.exports = function(app) {
     user = new User({ name: user_name });
     user.save();
 
-    Message.find({}).populate('user').exec(function(err, messages) {
+    Message.find({}).sort('created_at').populate('user').exec(function(err, messages) {
       var talks = [];
       messages.forEach(function(message) {
         user = message.user;
