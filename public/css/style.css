@@ -27,6 +27,7 @@ input {
 #messages {
   padding: 10px;
   padding-bottom: 0;
+  line-height: 150%;
 }
 
 .message {
@@ -34,7 +35,13 @@ input {
 }
 
 .name {
-  color: #aaa;
+  margin-right: 0.5em;
+  color: #888;
+  font-weight: bold;
+}
+
+.time {
+  color: #888;
   font-size: small;
 }
 

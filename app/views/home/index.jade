@@ -25,7 +25,8 @@ block append js
     }
 
     function createMessageElement(data) {
-      var $name = $('<div/>').attr('class', 'name').text('@' + data.user_name + ': ');
+      var $name = $('<span/>').attr('class', 'name').text('@' + data.user_name);
+      var $time = $('<span/>').attr('class', 'time').text(data.created_at);
       var $body = $('<div/>').attr('class', 'body').text(data.message);
 
       $body.linkify();
@@ -35,6 +36,7 @@ block append js
       return $('<div/>')
         .attr('class', 'message')
         .append($name)
+        .append($time)
         .append($body);
     }
 
