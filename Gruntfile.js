@@ -34,8 +34,21 @@ module.exports = function (grunt) {
         files: ['app/views/**/*.jade'],
         options: { livereload: reloadPort }
       }
+    },
+    bowerInstall: {
+      target: {
+        src: [
+          'app/views/**/*.jade'
+        ],
+        ignorePath: '../../public',
+        dependencies: true,
+        devDependencies: false
+      }
     }
   });
+
+  grunt.loadNpmTasks('grunt-bower-install');
+  grunt.registerTask('bower-install', [ 'bowerInstall' ]);
 
   grunt.config.requires('watch.js.files');
   files = grunt.config('watch.js.files');
