@@ -11,7 +11,7 @@ db.on('error', function () {
 
 var modelsPath = __dirname + '/app/models';
 fs.readdirSync(modelsPath).forEach(function (file) {
-  if (file.indexOf('.js') >= 0) {
+  if (file.match(/\.js$/)) {
     require(modelsPath + '/' + file);
   }
 });
