@@ -25,8 +25,8 @@ block append js
     }
 
     function createMessageElement(data) {
-      var $name = $('<strong/>').attr('class', 'name').text('@' + data.user_name + ': ');
-      var $body = $('<span/>').attr('class', 'body').text(data.message);
+      var $name = $('<div/>').attr('class', 'name').text('@' + data.user_name + ': ');
+      var $body = $('<div/>').attr('class', 'body').text(data.message);
 
       $body.linkify();
       imageify($body);
@@ -68,5 +68,5 @@ block append js
 
 block content
   form
-    input
+    input(placeholder="Please type your message")
   #messages
