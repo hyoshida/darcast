@@ -4,6 +4,18 @@ block append js
   script(src="/socket.io/socket.io.js")
 
   script.
+    function imageify($target) {
+      $target.find('a').each(function() {
+        url = $(this).text();
+        if (!url.match(/\.(jpg|jpeg|gif|png)$/)) return;
+
+        $image = $('<img/>')
+          .attr('src', url)
+          .css({ 'max-width': 320 });
+        $(this).html($image);
+      });
+    }
+
     $(function() {
       io = io.connect();
 
@@ -11,6 +23,7 @@ block append js
       io.on('talk', function(data) {
         $('#messages').prepend('<strong>@' + data.user_name + ': </strong>' + data.message + '<br>');
         $('#messages').linkify();
+        imageify($('#messages'));
       });
 
       // Listen for talk.log event.
@@ -19,6 +32,7 @@ block append js
           $('#messages').prepend('<strong>@' + this.user_name + ': </strong>' + this.message + '<br>');
         });
         $('#messages').linkify();
+        imageify($('#messages'));
       });
 
       // Emit talk event.
