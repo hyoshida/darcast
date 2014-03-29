@@ -43,6 +43,10 @@ block append js
         .append($body);
     }
 
+    function updateCounter() {
+      $('#counter').text($('#users li.active').length);
+    }
+
     $(function() {
       io = io.connect();
 
@@ -68,6 +72,7 @@ block append js
         }
         $user.attr('class', 'active');
         $user.prependTo('#users');
+        updateCounter();
       });
 
       // Listen for user.disconnect event.
@@ -75,6 +80,7 @@ block append js
         $user = $("#users").find('[data-user-name="' + user.name + '"]');
         $user.attr('class', 'inactive');
         $user.appendTo('#users');
+        updateCounter();
       });
 
       // Listen for user.log event.
@@ -89,6 +95,7 @@ block append js
             $user.appendTo('#users');
           }
         });
+        updateCounter();
       });
 
       // Emit talk event.
@@ -107,4 +114,6 @@ block content
     form
       input(placeholder="Please type your message")
     #messages
-  ul#users
+  #nav
+    #counter
+    ul#users

@@ -61,10 +61,22 @@ ul {
   color: #444;
 }
 
-#users {
+#nav {
   float: right;
-  margin-top: 45px;
   width: 240px;
+}
+
+#counter {
+  height: 45px;
+  line-height: 45px;
+  color: #d27;
+  font-size: xx-large;
+  text-align: center;
+  background-color: #ccc;
+  border-bottom: 1px solid #ddd;
+}
+
+#users {
   background-color: #ccc;
 }
 
