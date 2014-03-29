@@ -24,26 +24,39 @@ module.exports = function(app) {
     return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
   }
 
-  function userFirstEntry(attributes) {
+  function userConnect(attributes) {
     User.findOne(attributes, function (err, user) {
-      if (user) return;
-      user = new User(attributes);
-      user.save();
-      app.io.broadcast('user', attributes);
+      if (!user) {
+        user = new User(attributes);
+        user.save();
+      } else {
+        user.active_flag = true;
+        user.update();
+      }
+      app.io.broadcast('user.connect', attributes);
+      console.log('connection: @' + user_name);
+    });
+  }
+
+  function userDisconnect(attributes) {
+    User.findOne(attributes, function (err, user) {
+      user.active_flag = false;
+      app.io.broadcast('user.disconnect', attributes);
+      console.log('disconnection: @' + user_name);
     });
   }
 
   app.io.sockets.on('connection', function(req) {
     user_name = ipaddress(req);
 
-    userFirstEntry({ name: user_name });
+    userConnect({ name: user_name });
 
-    User.find({}, function(err, users) {
-      var userlog = [];
+    User.find({ name: { $ne: user_name } }, function(err, users) {
+      var users_attributes = [];
       users.forEach(function(user) {
-        userlog.push({ name: user.name });
+        users_attributes.push(user.attirbutes);
       });
-      req.emit('user.log', userlog);
+      req.emit('user.log', users_attributes);
     });
 
     Message.find({}).sort('created_at').populate('user').exec(function(err, messages) {
@@ -55,7 +68,9 @@ module.exports = function(app) {
       req.emit('talk.log', talks);
     });
 
-    console.log('connection: @' + user_name);
+    req.on('disconnect', function() {
+      userDisconnect({ name: user_name });
+    });
   });
 
   app.io.route('talk', function(req) {

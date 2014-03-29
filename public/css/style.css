@@ -71,15 +71,18 @@ ul {
 #users li {
   display: block;
   padding: 0.5em;
-  color: #444;
+  color: #d27;
   font-size: large;
 }
 
 #users li:before {
   content: "@";
-  color: #444;
 }
 
 #users li:hover {
   background-color: #bbb;
+}
+
+#users li.inactive {
+  color: #888;
 }

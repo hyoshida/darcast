@@ -57,15 +57,24 @@ block append js
         });
       });
 
-      // Listen for user event.
-      io.on('user', function(user) {
-        $('#users').prepend('<li>' + user.name + '</li>');
+      // Listen for user.connect event.
+      io.on('user.connect', function(user) {
+        $("#users").find("[data-user-name='" + user.name + "']").remove();
+        $('#users').prepend('<li data-user-name="' + user.name + '">' + user.name + '</li>');
+      });
+
+      // Listen for user.disconnect event.
+      io.on('user.disconnect', function(user) {
+        $("#users").find('[data-user-name="' + user.name + '"]').attr('class', 'inactive');
       });
 
       // Listen for user.log event.
       io.on('user.log', function(users) {
         $.each(users, function() {
-          $('#users').prepend('<li>' + this.name + '</li>');
+          $('#users').prepend('<li data-user-name="' + this.name + '">' + this.name + '</li>');
+          if (!this.active_flag) {
+            $("#users").find('[data-user-name="' + this.name + '"]').attr('class', 'inactive');
+          }
         });
       });
 
