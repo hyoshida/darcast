@@ -18,9 +18,12 @@ block append js
 
     function youtubeify($target) {
       $target.find('a').html(function(_, html) {
-        var pattern  = /(?:http:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=)?(.+)/g;
-        var video = '<iframe width="320" height="240" src="http://www.youtube.com/embed/$1" frameborder="0" allowfullscreen></iframe>';
-        return html.replace(pattern, video);
+        var pattern = /(?:http:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=)?(.+)/g;
+        if (html.match(pattern)) {
+          return '<iframe width="320" height="240" src="http://www.youtube.com/embed/' + RegExp.$1 + '" frameborder="0" allowfullscreen></iframe>';
+        } else {
+          return html;
+        }
       });
     }
 
