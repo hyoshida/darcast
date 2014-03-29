@@ -8,19 +8,31 @@ body {
 }
 
 form {
-  padding: 0.5em;
+  padding: 10px;
   background-color: #fff;
 }
 
 input {
   width: 100%;
-  border: 0;
+  height: 25px;
+  line-height: 25px;
   font-size: x-large;
+  border: 0;
+}
+
+ul {
+  list-style: none;
 }
 
 #container {
   margin: 0 auto;
-  width: 740px;
+  width: 1240px;
+}
+
+#contents {
+  float: left;
+  margin-left: 240px;
+  width: 760px;
   background-color: #eee;
 }
 
@@ -47,4 +59,27 @@ input {
 
 .body {
   color: #444;
+}
+
+#users {
+  float: right;
+  margin-top: 45px;
+  width: 240px;
+  background-color: #ccc;
+}
+
+#users li {
+  display: block;
+  padding: 0.5em;
+  color: #444;
+  font-size: large;
+}
+
+#users li:before {
+  content: "@";
+  color: #444;
+}
+
+#users li:hover {
+  background-color: #bbb;
 }
