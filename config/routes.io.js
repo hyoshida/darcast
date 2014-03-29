@@ -24,11 +24,27 @@ module.exports = function(app) {
     return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
   }
 
+  function userFirstEntry(attributes) {
+    User.findOne(attributes, function (err, user) {
+      if (user) return;
+      user = new User(attributes);
+      user.save();
+      app.io.broadcast('user', attributes);
+    });
+  }
+
   app.io.sockets.on('connection', function(req) {
     user_name = ipaddress(req);
 
-    user = new User({ name: user_name });
-    user.save();
+    userFirstEntry({ name: user_name });
+
+    User.find({}, function(err, users) {
+      var userlog = [];
+      users.forEach(function(user) {
+        userlog.push({ name: user.name });
+      });
+      req.emit('user.log', userlog);
+    });
 
     Message.find({}).sort('created_at').populate('user').exec(function(err, messages) {
       var talks = [];

@@ -57,6 +57,18 @@ block append js
         });
       });
 
+      // Listen for user event.
+      io.on('user', function(user) {
+        $('#users').prepend('<li>' + user.name + '</li>');
+      });
+
+      // Listen for user.log event.
+      io.on('user.log', function(users) {
+        $.each(users, function() {
+          $('#users').prepend('<li>' + this.name + '</li>');
+        });
+      });
+
       // Emit talk event.
       $('form').submit(function(event) {
         // stop form from submitting normally
@@ -71,4 +83,5 @@ block append js
 block content
   form
     input(placeholder="Please type your message")
+  ul#users
   #messages
