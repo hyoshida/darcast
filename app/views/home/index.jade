@@ -9,9 +9,7 @@ block append js
         url = $(this).text();
         if (!url.match(/\.(jpg|jpeg|gif|png)$/)) return;
 
-        $image = $('<img/>')
-          .attr('src', url)
-          .css({ 'max-width': 320 });
+        $image = $('<img/>').attr('src', url);
         $(this).html($image);
       });
     }
@@ -20,7 +18,7 @@ block append js
       $target.find('a').html(function(_, html) {
         var pattern = /(?:http:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=)?(.+)/g;
         if (html.match(pattern)) {
-          return '<iframe width="320" height="240" src="http://www.youtube.com/embed/' + RegExp.$1 + '" frameborder="0" allowfullscreen></iframe>';
+          return '<iframe src="http://www.youtube.com/embed/' + RegExp.$1 + '" frameborder="0" allowfullscreen></iframe>';
         } else {
           return html;
         }
@@ -110,10 +108,10 @@ block append js
     });
 
 block content
+  #nav
+    #counter
+    ul#users
   #contents
     form
       input(placeholder="Please type your message")
     #messages
-  #nav
-    #counter
-    ul#users
