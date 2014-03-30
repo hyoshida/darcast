@@ -28,11 +28,9 @@ module.exports = function(app) {
     User.findOne(attributes, function (err, user) {
       if (!user) {
         user = new User(attributes);
-        user.save();
-      } else {
-        user.active_flag = true;
-        user.update();
       }
+      user.active_flag = true;
+      user.save();
       app.io.broadcast('user.connect', attributes);
       console.log('connection: @' + attributes.name);
     });
@@ -41,6 +39,7 @@ module.exports = function(app) {
   function userDisconnect(attributes) {
     User.findOne(attributes, function (err, user) {
       user.active_flag = false;
+      user.save();
       app.io.broadcast('user.disconnect', attributes);
       console.log('disconnection: @' + attributes.name);
     });
