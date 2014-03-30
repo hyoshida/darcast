@@ -34,7 +34,7 @@ module.exports = function(app) {
         user.update();
       }
       app.io.broadcast('user.connect', attributes);
-      console.log('connection: @' + user_name);
+      console.log('connection: @' + attributes.name);
     });
   }
 
@@ -42,12 +42,12 @@ module.exports = function(app) {
     User.findOne(attributes, function (err, user) {
       user.active_flag = false;
       app.io.broadcast('user.disconnect', attributes);
-      console.log('disconnection: @' + user_name);
+      console.log('disconnection: @' + attributes.name);
     });
   }
 
   app.io.sockets.on('connection', function(req) {
-    user_name = ipaddress(req);
+    var user_name = ipaddress(req);
 
     userConnect({ name: user_name });
 
@@ -62,23 +62,24 @@ module.exports = function(app) {
     Message.find({}).sort('created_at').populate('user').exec(function(err, messages) {
       var talks = [];
       messages.forEach(function(message) {
-        user = message.user;
+        var user = message.user;
         talks.push({ user_name: user.name, message: message.body, created_at: datestring(message.created_at) });
       });
       req.emit('talk.log', talks);
     });
 
     req.on('disconnect', function() {
+      var user_name = ipaddress(this);
       userDisconnect({ name: user_name });
     });
   });
 
   app.io.route('talk', function(req) {
-    user_name = ipaddress(req);
+    var user_name = ipaddress(req);
     User.findOne({ name: user_name }, function(err, user) {
-      message_body = sanitize.escape(req.data);
+      var message_body = sanitize.escape(req.data);
 
-      message = new Message({ user: user, body: message_body });
+      var message = new Message({ user: user, body: message_body });
       message.save();
 
       app.io.broadcast('talk', { user_name: user_name, message: message_body, created_at: datestring(new Date) });
