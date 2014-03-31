@@ -27,6 +27,20 @@ ul {
   list-style: none;
 }
 
+a {
+  display: inline;
+}
+
+a:before {
+  display: block;
+  content: " ";
+}
+
+a:after {
+  display: block;
+  content: " ";
+}
+
 img {
   max-width: 320px;
 }
