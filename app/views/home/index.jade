@@ -102,8 +102,10 @@ block append js
         event.preventDefault();
 
         message = $('input').val();
-        io.emit('talk', message);
-        $('input').val('');
+        if (message.length) {
+          io.emit('talk', message);
+          $('input').val('');
+        }
       });
     });
 

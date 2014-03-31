@@ -74,10 +74,11 @@ module.exports = function(app) {
   });
 
   app.io.route('talk', function(req) {
+    var message_body = sanitize.escape(req.data);
+    if (!message_body.length) return;
+
     var user_name = ipaddress(req);
     User.findOne({ name: user_name }, function(err, user) {
-      var message_body = sanitize.escape(req.data);
-
       var message = new Message({ user: user, body: message_body });
       message.save();
 
