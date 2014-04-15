@@ -42,16 +42,79 @@ block append js
             $user.appendTo('#users');
           }
 
-          $user_code = $('<dt/>').attr('data-user-code', this.code).attr('class', 'code').text(this.code);
-          $user_code.appendTo('#users_map');
-          $user_name = $('<dd/>').attr('data-user-code', this.code).attr('class', 'sep').text('@');
-          $user_name.appendTo('#users_map');
-          $user_name = $('<dd/>').attr('data-user-code', this.code).attr('class', 'name').text(this.name || '(none)');
-          $user_name.appendTo('#users_map');
+          // for admin
+          $show_field = $('<dl/>').addClass('show_field');
+          $user_code = $('<dt/>').addClass('code').text(this.code);
+          $user_code.appendTo($show_field);
+          $user_sep = $('<dd/>').addClass('sep').text('@');
+          $user_sep.appendTo($show_field);
+          $user_name = $('<dd/>').addClass('name').text(this.name || 'Anonymous');
+          $user_name.appendTo($show_field);
+
+          $user_map = $('<div/>').attr('data-user-code', this.code).addClass('user_map');
+          $user_map.append($show_field);
+          $user_map.appendTo('#users_map');
         });
         updateCounter();
       });
+
+      // from http://stackoverflow.com/questions/14645806/get-all-attributes-of-an-element-using-jquery
+      (function(old) {
+        $.fn.attr = function() {
+          if(arguments.length === 0) {
+            if(this.length === 0) {
+              return null;
+            }
+
+            var obj = {};
+            $.each(this[0].attributes, function() {
+              if(this.specified) {
+                obj[this.name] = this.value;
+              }
+            });
+            return obj;
+          }
+
+          return old.apply(this, arguments);
+        };
+      })($.fn.attr);
+
+      function inputStart(element) {
+        $element = $(element);
+        $input = $('<input/>').attr($element.attr());
+        $input.insertAfter($element);
+        $input.focus();
+        $input.val($element.text());
+        $element.addClass('hidden');
+
+        var ime = new LibIME($input);
+        ime.onkeyup = function(args) {
+          event = args[0];
+          switch (ime.status) {
+          case 2:
+            if (event.keyCode !== 13) return;
+            inputComplete($input);
+          }
+        }
+      }
+
+      function inputComplete(input) {
+        $input = $(input);
+        $element = $input.closest('.show_field').find('.hidden');
+        $element.text($input.val());
+        $element.removeClass('hidden');
+        $input.remove();
+      }
+
+      $(document).on('click', '.show_field :not(input).code, .show_field :not(input).name', function() {
+        inputStart(this);
+      });
+
+      $(document).on('blur', '.show_field input.code, .show_field input.name', function() {
+        inputComplete(this);
+      });
     });
+
 
 block content
   #nav
@@ -62,4 +125,4 @@ block content
       input.code(placeholder="IP Address")
       .sep @
       input.name(placeholder="User name")
-    dl#users_map
+    #users_map

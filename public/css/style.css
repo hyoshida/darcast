@@ -186,3 +186,12 @@ form .sep,
   color: #aaa;
   font-weight: normal;
 }
+
+#users_map input {
+  font-weight: bold;
+  color: #888;
+}
+
+.hidden {
+  display: none !important;
+}
