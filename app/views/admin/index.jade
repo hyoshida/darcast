@@ -104,6 +104,15 @@ block append js
         $element.text($input.val());
         $element.removeClass('hidden');
         $input.remove();
+
+        var code = $element.closest('[data-user-code]').attr('data-user-code');
+        var attributes = { code: code, value: $element.text() };
+        if ($element.attr('class').match(/code/)) {
+          attributes.type = 'code';
+        } else {
+          attributes.type = 'name';
+        }
+        io.emit('user.edit', JSON.stringify(attributes));
       }
 
       $(document).on('click', '.show_field :not(input).code, .show_field :not(input).name', function() {
@@ -112,6 +121,26 @@ block append js
 
       $(document).on('blur', '.show_field input.code, .show_field input.name', function() {
         inputComplete(this);
+      });
+
+      function validateIPaddress(ipaddress) {
+        return ipaddress.match(/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/)
+      }
+
+      $('form').submit(function(event) {
+        // stop form from submitting normally
+        event.preventDefault();
+
+        var code = $('input.code').val();
+        var name = $('input.name').val();
+
+        if (!validateIPaddress(code)) return;
+        console.log(code);
+
+        var attributes = { code: code, name: name };
+        io.emit('user.new', JSON.stringify(attributes));
+
+        $('input').val('');
       });
     });
 
@@ -122,7 +151,8 @@ block content
     ul#users
   #contents
     form
-      input.code(placeholder="IP Address")
+      input.code(type="text", placeholder="IP Address")
       .sep @
-      input.name(placeholder="User name")
+      input.name(type="text", placeholder="User name")
+      input.hidden(type="submit")
     #users_map

@@ -88,4 +88,45 @@ module.exports = function(app) {
     });
   });
 
+  app.io.route('user.new', function(req) {
+    var attributes = null;
+    try {
+      attributes = JSON.parse(req.data);
+    } catch (e) {
+      console.error("JSON.parse error:", e);
+    }
+    if (!attributes) return;
+    if (!attributes.code) return;
+
+    User.findOne({ code: attributes.code }, function(err, user) {
+      if (user) {
+        console.log('user.new: @' + user.code + ' is already exist');
+        return;
+      }
+      user = new User();
+      user.code = attributes.code;
+      user.name = attributes.name;
+      user.save();
+    });
+  });
+
+  app.io.route('user.edit', function(req) {
+    var attributes = null;
+    try {
+      attributes = JSON.parse(req.data);
+    } catch (e) {
+      console.error("JSON.parse error:", e);
+    }
+    if (!attributes) return;
+
+    User.findOne({ code: attributes.code }, function(err, user) {
+      if (attributes.type == 'code') {
+        user.code = attributes.value;
+      } else {
+        user.name = attributes.value;
+      }
+      user.save();
+    });
+  });
+
 };
