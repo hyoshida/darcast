@@ -31,7 +31,6 @@ module.exports = function(app) {
       }
       user.active_flag = true;
       user.save();
-      console.log(user.attributes);
       app.io.broadcast('user.connect', user.attributes);
       console.log('connection: @' + conditions.code);
     });
@@ -41,7 +40,6 @@ module.exports = function(app) {
     User.findOne(conditions, function (err, user) {
       user.active_flag = false;
       user.save();
-      attributes = user.attributes;
       app.io.broadcast('user.disconnect', user.attributes);
       console.log('disconnection: @' + conditions.code);
     });
@@ -64,7 +62,7 @@ module.exports = function(app) {
       var talks = [];
       messages.forEach(function(message) {
         var user = message.user;
-        talks.push({ user_name: user.display_name, message: message.body, created_at: datestring(message.created_at) });
+        talks.push({ user_display_name: user.display_name, message: message.body, created_at: datestring(message.created_at) });
       });
       req.emit('talk.log', talks);
     });
@@ -84,7 +82,7 @@ module.exports = function(app) {
       var message = new Message({ user: user, body: message_body });
       message.save();
 
-      app.io.broadcast('talk', { user_name: user.display_name, message: message_body, created_at: datestring(new Date) });
+      app.io.broadcast('talk', { user_display_name: user.display_name, message: message_body, created_at: datestring(new Date) });
 
       console.log('talk: @' + user.code + ' say ' + message_body);
     });

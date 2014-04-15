@@ -23,6 +23,7 @@ input {
   outline: none;
 }
 
+
 ul {
   list-style: none;
 }
@@ -62,22 +63,22 @@ iframe {
   line-height: 150%;
 }
 
-.message {
+#messages .message {
   padding-bottom: 0.5em;
 }
 
-.name {
+#messages .name {
   margin-right: 0.5em;
   color: #888;
   font-weight: bold;
 }
 
-.time {
+#messages .time {
   color: #888;
   font-size: small;
 }
 
-.body {
+#messages .body {
   color: #444;
 }
 
@@ -146,4 +147,42 @@ iframe {
   #users {
     display: none;
   }
+}
+
+/* for admin */
+
+#users_map {
+  padding: 10px;
+  color: #888;
+  font-weight: bold;
+}
+
+input.code,
+#users_map dt {
+  display: inline-block;
+  width: 20%;
+  text-align: right;
+}
+
+input.name,
+#users_map dd {
+  display: inline-block;
+  width: 75%;
+}
+
+form .sep,
+#users_map .sep {
+  display: inline-block;
+  color: #e43774;
+  width: 5%;
+  height: 25px;
+  line-height: 25px;
+  font-size: 1.5em;
+  vertical-align: middle;
+  text-align: center;
+}
+
+#users_map .sep {
+  color: #aaa;
+  font-weight: normal;
 }

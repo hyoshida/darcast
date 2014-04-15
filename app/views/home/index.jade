@@ -26,7 +26,7 @@ block append js
     }
 
     function createMessageElement(data) {
-      var $name = $('<span/>').attr('class', 'name').text('@' + data.user_name);
+      var $name = $('<span/>').attr('class', 'name').text('@' + data.user_display_name);
       var $time = $('<span/>').attr('class', 'time').text(data.created_at);
       var $body = $('<div/>').attr('class', 'body').text(data.message);
 
@@ -64,9 +64,9 @@ block append js
 
       // Listen for user.connect event.
       io.on('user.connect', function(user) {
-        $user = $("#users").find('[data-user-name="' + user.name + '"]');
+        $user = $("#users").find('[data-user-code="' + user.code + '"]');
         if (!$user.length) {
-          $user = $('<li/>').attr('data-user-name', user.name).text(user.name);
+          $user = $('<li/>').attr('data-user-code', user.code).text(user.display_name);
         }
         $user.attr('class', 'active');
         $user.prependTo('#users');
@@ -75,7 +75,7 @@ block append js
 
       // Listen for user.disconnect event.
       io.on('user.disconnect', function(user) {
-        $user = $("#users").find('[data-user-name="' + user.name + '"]');
+        $user = $("#users").find('[data-user-code="' + user.code + '"]');
         $user.attr('class', 'inactive');
         $user.appendTo('#users');
         updateCounter();
@@ -84,7 +84,7 @@ block append js
       // Listen for user.log event.
       io.on('user.log', function(users) {
         $.each(users, function() {
-          $user = $('<li/>').attr('data-user-name', this.name).text(this.name);
+          $user = $('<li/>').attr('data-user-code', this.code).text(this.display_name);
           if (this.active_flag) {
             $user.attr('class', 'active');
             $user.prependTo('#users');

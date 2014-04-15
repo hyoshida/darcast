@@ -12,7 +12,7 @@ UserSchema.virtual('attributes').get(function() {
   var attributes = this.toJSON();
   delete attributes._id;
   delete attributes.__v;
-  attributes.name = this.display_name;
+  attributes.display_name = this.display_name;
   return attributes;
 });
 

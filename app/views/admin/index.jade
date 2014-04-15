@@ -13,9 +13,9 @@ block append js
 
       // Listen for user.connect event.
       io.on('user.connect', function(user) {
-        $user = $("#users").find('[data-user-name="' + user.name + '"]');
+        $user = $("#users").find('[data-user-code="' + user.code + '"]');
         if (!$user.length) {
-          $user = $('<li/>').attr('data-user-name', user.name).text(user.name);
+          $user = $('<li/>').attr('data-user-code', user.code).text(user.display_name);
         }
         $user.attr('class', 'active');
         $user.prependTo('#users');
@@ -24,7 +24,7 @@ block append js
 
       // Listen for user.disconnect event.
       io.on('user.disconnect', function(user) {
-        $user = $("#users").find('[data-user-name="' + user.name + '"]');
+        $user = $("#users").find('[data-user-code="' + user.code + '"]');
         $user.attr('class', 'inactive');
         $user.appendTo('#users');
         updateCounter();
@@ -33,7 +33,7 @@ block append js
       // Listen for user.log event.
       io.on('user.log', function(users) {
         $.each(users, function() {
-          $user = $('<li/>').attr('data-user-name', this.name).text(this.name);
+          $user = $('<li/>').attr('data-user-code', this.code).text(this.display_name);
           if (this.active_flag) {
             $user.attr('class', 'active');
             $user.prependTo('#users');
@@ -41,6 +41,13 @@ block append js
             $user.attr('class', 'inactive');
             $user.appendTo('#users');
           }
+
+          $user_code = $('<dt/>').attr('data-user-code', this.code).attr('class', 'code').text(this.code);
+          $user_code.appendTo('#users_map');
+          $user_name = $('<dd/>').attr('data-user-code', this.code).attr('class', 'sep').text('@');
+          $user_name.appendTo('#users_map');
+          $user_name = $('<dd/>').attr('data-user-code', this.code).attr('class', 'name').text(this.name || '(none)');
+          $user_name.appendTo('#users_map');
         });
         updateCounter();
       });
@@ -52,5 +59,7 @@ block content
     ul#users
   #contents
     form
-      input(placeholder="Your are admin user!")
-    #messages
+      input.code(placeholder="IP Address")
+      .sep @
+      input.name(placeholder="User name")
+    dl#users_map
