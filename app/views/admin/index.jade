@@ -8,6 +8,22 @@ block append js
       $('#counter').text($('#users li.active').length);
     }
 
+    function addUserToMap(user) {
+      // for admin
+      var $user_code = $('<dt/>').addClass('code').text(user.code);
+      var $user_sep = $('<dd/>').addClass('sep').text('@');
+      var $user_name = $('<dd/>').addClass('name').text(user.name || 'Anonymous');
+
+      var $show_field = $('<dl/>').addClass('show_field');
+      $show_field.append($user_code);
+      $show_field.append($user_sep);
+      $show_field.append($user_name);
+
+      var $user_map = $('<div/>').attr('data-user-code', user.code).addClass('user_map');
+      $user_map.append($show_field);
+      $user_map.appendTo('#users_map');
+    }
+
     $(function() {
       io = io.connect();
 
@@ -42,18 +58,7 @@ block append js
             $user.appendTo('#users');
           }
 
-          // for admin
-          $show_field = $('<dl/>').addClass('show_field');
-          $user_code = $('<dt/>').addClass('code').text(this.code);
-          $user_code.appendTo($show_field);
-          $user_sep = $('<dd/>').addClass('sep').text('@');
-          $user_sep.appendTo($show_field);
-          $user_name = $('<dd/>').addClass('name').text(this.name || 'Anonymous');
-          $user_name.appendTo($show_field);
-
-          $user_map = $('<div/>').attr('data-user-code', this.code).addClass('user_map');
-          $user_map.append($show_field);
-          $user_map.appendTo('#users_map');
+          addUserToMap(this);
         });
         updateCounter();
       });
