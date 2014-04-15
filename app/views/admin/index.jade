@@ -35,6 +35,7 @@ block append js
         }
         $user.attr('class', 'active');
         $user.prependTo('#users');
+        addUserToMap(user);
         updateCounter();
       });
 
