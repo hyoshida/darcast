@@ -107,8 +107,14 @@ block append js
       function inputComplete(input) {
         $input = $(input);
         $element = $input.closest('.show_field').find('.hidden');
-        $element.text($input.val());
         $element.removeClass('hidden');
+
+        if ($input.attr('class').match(/code/) && !validateIPaddress($input.val())) {
+          $input.remove();
+          return;
+        }
+
+        $element.text($input.val());
         $input.remove();
 
         var code = $element.closest('[data-user-code]').attr('data-user-code');
@@ -141,7 +147,6 @@ block append js
         var name = $('input.name').val();
 
         if (!validateIPaddress(code)) return;
-        console.log(code);
 
         var attributes = { code: code, name: name };
         io.emit('user.new', JSON.stringify(attributes));
