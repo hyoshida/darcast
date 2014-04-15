@@ -24,36 +24,38 @@ module.exports = function(app) {
     return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
   }
 
-  function userConnect(attributes) {
-    User.findOne(attributes, function (err, user) {
+  function userConnect(conditions) {
+    User.findOne(conditions, function (err, user) {
       if (!user) {
-        user = new User(attributes);
+        user = new User(conditions);
       }
       user.active_flag = true;
       user.save();
-      app.io.broadcast('user.connect', attributes);
-      console.log('connection: @' + attributes.name);
+      console.log(user.attributes);
+      app.io.broadcast('user.connect', user.attributes);
+      console.log('connection: @' + conditions.code);
     });
   }
 
-  function userDisconnect(attributes) {
-    User.findOne(attributes, function (err, user) {
+  function userDisconnect(conditions) {
+    User.findOne(conditions, function (err, user) {
       user.active_flag = false;
       user.save();
-      app.io.broadcast('user.disconnect', attributes);
-      console.log('disconnection: @' + attributes.name);
+      attributes = user.attributes;
+      app.io.broadcast('user.disconnect', user.attributes);
+      console.log('disconnection: @' + conditions.code);
     });
   }
 
   app.io.sockets.on('connection', function(req) {
-    var user_name = ipaddress(req);
+    var user_code = ipaddress(req);
 
-    userConnect({ name: user_name });
+    userConnect({ code: user_code });
 
-    User.find({ name: { $ne: user_name } }, function(err, users) {
+    User.find({ code: { $ne: user_code } }, function(err, users) {
       var users_attributes = [];
       users.forEach(function(user) {
-        users_attributes.push(user.attirbutes);
+        users_attributes.push(user.attributes);
       });
       req.emit('user.log', users_attributes);
     });
@@ -62,14 +64,14 @@ module.exports = function(app) {
       var talks = [];
       messages.forEach(function(message) {
         var user = message.user;
-        talks.push({ user_name: user.name, message: message.body, created_at: datestring(message.created_at) });
+        talks.push({ user_name: user.display_name, message: message.body, created_at: datestring(message.created_at) });
       });
       req.emit('talk.log', talks);
     });
 
     req.on('disconnect', function() {
-      var user_name = ipaddress(this);
-      userDisconnect({ name: user_name });
+      var user_code = ipaddress(this);
+      userDisconnect({ code: user_code });
     });
   });
 
@@ -77,14 +79,14 @@ module.exports = function(app) {
     var message_body = sanitize.escape(req.data);
     if (!message_body.length) return;
 
-    var user_name = ipaddress(req);
-    User.findOne({ name: user_name }, function(err, user) {
+    var user_code = ipaddress(req);
+    User.findOne({ code: user_code }, function(err, user) {
       var message = new Message({ user: user, body: message_body });
       message.save();
 
-      app.io.broadcast('talk', { user_name: user_name, message: message_body, created_at: datestring(new Date) });
+      app.io.broadcast('talk', { user_name: user.display_name, message: message_body, created_at: datestring(new Date) });
 
-      console.log('talk: @' + user_name + ' say ' + message_body);
+      console.log('talk: @' + user.code + ' say ' + message_body);
     });
   });
 
