@@ -35,6 +35,12 @@ $(function() {
     updateCounter();
   });
 
+  // Listen for user.update event.
+  io.on('user.update', function(user) {
+    updateUser(user);
+    updateCounter();
+  });
+
   // Emit talk event.
   $('form').submit(function(event) {
     // stop form from submitting normally

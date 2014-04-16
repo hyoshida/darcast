@@ -20,7 +20,7 @@ function youtubeify($target) {
 }
 
 function createMessageElement(data) {
-  var $name = $('<span/>').attr('class', 'name').text('@' + data.user_display_name);
+  var $name = $('<span/>').attr('class', 'name').text('@' + data.user.display_name);
   var $time = $('<span/>').attr('class', 'time').text(data.created_at);
   var $body = $('<div/>').attr('class', 'body').text(data.message);
 
@@ -28,11 +28,11 @@ function createMessageElement(data) {
   imageify($body);
   youtubeify($body);
 
-  return $('<div/>')
-    .attr('class', 'message')
-    .append($name)
-    .append($time)
-    .append($body);
+  var $message = $('<div/>').attr('data-user-code', data.user.code).addClass('message');
+  $message.append($name);
+  $message.append($time);
+  $message.append($body);
+  return $message;
 }
 
 function updateCounter() {
@@ -63,4 +63,14 @@ function inactivateUser(user) {
   var $user = $("#users").find('[data-user-code="' + user.code + '"]');
   $user.attr('class', 'inactive');
   $user.appendTo('#users');
+}
+
+function updateUser(user) {
+  var $user = $('#users [data-user-code="' + user.code + '"], #messages [data-user-code="' + user.code + '"] .name');
+  if (!$user.length) {
+    $user = $('<li/>').attr('data-user-code', user.code).text(user.display_name);
+    $user.attr('class', 'inactive');
+    $user.appendTo('#users');
+  }
+  $user.text(user.display_name);
 }

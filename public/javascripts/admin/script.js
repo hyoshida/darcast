@@ -23,6 +23,12 @@ $(function() {
     updateCounter();
   });
 
+  // Listen for user.update event.
+  io.on('user.update', function(user) {
+    updateUser(user);
+    updateCounter();
+  });
+
   $('form').submit(function(event) {
     // stop form from submitting normally
     event.preventDefault();
@@ -47,7 +53,7 @@ $(function() {
     } else {
       attributes.type = 'name';
     }
-    io.emit('user.edit', JSON.stringify(attributes));
+    io.emit('user.update', JSON.stringify(attributes));
   });
 });
 

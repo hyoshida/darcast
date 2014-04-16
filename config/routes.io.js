@@ -62,7 +62,7 @@ module.exports = function(app) {
       var talks = [];
       messages.forEach(function(message) {
         var user = message.user;
-        talks.push({ user_display_name: user.display_name, message: message.body, created_at: datestring(message.created_at) });
+        talks.push({ user: user.attributes, message: message.body, created_at: datestring(message.created_at) });
       });
       req.emit('talk.log', talks);
     });
@@ -82,7 +82,7 @@ module.exports = function(app) {
       var message = new Message({ user: user, body: message_body });
       message.save();
 
-      app.io.broadcast('talk', { user_display_name: user.display_name, message: message_body, created_at: datestring(new Date) });
+      app.io.broadcast('talk', { user: user.attributes, message: message_body, created_at: datestring(new Date) });
 
       console.log('talk: @' + user.code + ' say ' + message_body);
     });
@@ -110,7 +110,7 @@ module.exports = function(app) {
     });
   });
 
-  app.io.route('user.edit', function(req) {
+  app.io.route('user.update', function(req) {
     var attributes = null;
     try {
       attributes = JSON.parse(req.data);
@@ -126,6 +126,7 @@ module.exports = function(app) {
         user.name = attributes.value;
       }
       user.save();
+      app.io.broadcast('user.update', user.attributes);
     });
   });
 
