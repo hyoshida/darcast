@@ -20,7 +20,7 @@ function youtubeify($target) {
 }
 
 function createMessageElement(data) {
-  var $name = $('<span/>').attr('class', 'name').text('@' + data.user.display_name);
+  var $name = $('<span/>').attr('class', 'name').text(data.user.display_name);
   var $time = $('<span/>').attr('class', 'time').text(data.created_at);
   var $body = $('<div/>').attr('class', 'body').text(data.message);
 

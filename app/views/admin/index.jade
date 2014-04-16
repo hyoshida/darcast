@@ -16,3 +16,8 @@ block content
       input.name(type="text", placeholder="User name")
       input.hidden(type="submit")
     #users_map
+    #revolution
+      if share.display_real_name_flag
+        button.disable Disable PUBLIC mode
+      else
+        button Enable PUBLIC mode

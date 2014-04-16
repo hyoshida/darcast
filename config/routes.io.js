@@ -1,7 +1,9 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var Message = mongoose.model('Message');
+var Setting = mongoose.model('Setting');
 var sanitize = require('validator');
+var share = require('../config/share');
 
 module.exports = function(app) {
 
@@ -130,4 +132,20 @@ module.exports = function(app) {
     });
   });
 
+  app.io.route('mode.toggle', function(req) {
+    share.display_real_name_flag = !share.display_real_name_flag;
+    Setting.findOne({}, function(err, setting) {
+      if (!setting) return;
+      setting.display_real_name_flag = share.display_real_name_flag;
+      setting.save();
+
+      User.find({}, function(err, users) {
+        var users_attributes = [];
+        users.forEach(function(user) {
+          users_attributes.push(user.attributes);
+        });
+        app.io.broadcast('user.log', users_attributes);
+      });
+    });
+  });
 };

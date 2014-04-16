@@ -4,7 +4,7 @@ $(function() {
   // Listen for user.connect event.
   io.on('user.connect', function(user) {
     activateUser(user);
-    addUserToMap(user);
+    updateUserForMap(user);
     updateCounter();
   });
 
@@ -17,8 +17,8 @@ $(function() {
   // Listen for user.log event.
   io.on('user.log', function(users) {
     $.each(users, function() {
-      addUserToNav(this);
-      addUserToMap(this);
+      updateUser(this);
+      updateUserForMap(this);
     });
     updateCounter();
   });
@@ -54,6 +54,20 @@ $(function() {
       attributes.type = 'name';
     }
     io.emit('user.update', JSON.stringify(attributes));
+  });
+
+  $('#revolution button').on('click', function() {
+    var $self = $(this);
+    var text = $self.text();
+
+    $self.toggleClass('disable');
+
+    if ($self.attr('class').match(/disable/))
+      $self.text(text.replace('Enable', 'Disable'));
+    else
+      $self.text(text.replace('Disable', 'Enable'));
+
+    io.emit('mode.toggle');
   });
 });
 

@@ -30,7 +30,7 @@ $(function() {
   // Listen for user.log event.
   io.on('user.log', function(users) {
     $.each(users, function() {
-      addUserToNav(this);
+      updateUser(this);
     });
     updateCounter();
   });

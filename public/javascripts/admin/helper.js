@@ -20,8 +20,13 @@
   };
 })($.fn.attr);
 
-function addUserToMap(user) {
-  // for admin
+function updateUserForMap(user) {
+  var $user_map = $('#users_map [data-user-code="' + user.code + '"]');
+  if ($user_map.length) {
+    $user_map.find('.name').text(user.name || 'Anonymous');
+    return;
+  }
+
   var $user_code = $('<dt/>').addClass('code').text(user.code);
   var $user_sep = $('<dd/>').addClass('sep').text('@');
   var $user_name = $('<dd/>').addClass('name').text(user.name || 'Anonymous');
@@ -31,7 +36,7 @@ function addUserToMap(user) {
   $show_field.append($user_sep);
   $show_field.append($user_name);
 
-  var $user_map = $('<div/>').attr('data-user-code', user.code).addClass('user_map');
+  $user_map = $('<div/>').attr('data-user-code', user.code).addClass('user_map');
   $user_map.append($show_field);
   $user_map.appendTo('#users_map');
 }
