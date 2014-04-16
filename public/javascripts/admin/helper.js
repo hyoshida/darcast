@@ -57,6 +57,7 @@ function inputStart(element) {
 
 function inputComplete(input) {
   $input = $(input);
+
   $element = $input.closest('.show_field').find('.hidden');
   $element.removeClass('hidden');
 
@@ -66,16 +67,8 @@ function inputComplete(input) {
   }
 
   $element.text($input.val());
+  $element.trigger('change');
   $input.remove();
-
-  var code = $element.closest('[data-user-code]').attr('data-user-code');
-  var attributes = { code: code, value: $element.text() };
-  if ($element.attr('class').match(/code/)) {
-    attributes.type = 'code';
-  } else {
-    attributes.type = 'name';
-  }
-  io.emit('user.edit', JSON.stringify(attributes));
 }
 
 function validateIPaddress(ipaddress) {

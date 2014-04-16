@@ -37,6 +37,18 @@ $(function() {
 
     $('input').val('');
   });
+
+  $(document).on('change', '.show_field :not(input).code, .show_field :not(input).name', function() {
+    var $self = $(this);
+    var code = $self.closest('[data-user-code]').attr('data-user-code');
+    var attributes = { code: code, value: $self.text() };
+    if ($self.attr('class').match(/code/)) {
+      attributes.type = 'code';
+    } else {
+      attributes.type = 'name';
+    }
+    io.emit('user.edit', JSON.stringify(attributes));
+  });
 });
 
 $(document).on('click', '.show_field :not(input).code, .show_field :not(input).name', function() {
