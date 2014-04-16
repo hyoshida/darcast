@@ -74,6 +74,8 @@ iframe {
 }
 
 #messages .name:before {
+  margin-right: 2px;
+  vertical-align: top;
   content: "@";
 }
 
@@ -120,6 +122,8 @@ iframe {
 }
 
 #users li:before {
+  margin-right: 2px;
+  vertical-align: middle;
   content: "@";
 }
 
@@ -161,8 +165,13 @@ iframe {
 
 #users_map {
   padding: 10px;
-  color: #888;
-  font-weight: bold;
+  color: #666;
+}
+
+#users_map input {
+  color: #000;
+  border: 1px solid #e43774;
+  box-sizing: border-box;
 }
 
 input.code,
@@ -195,11 +204,6 @@ form .sep,
   font-weight: normal;
 }
 
-#users_map input {
-  font-weight: bold;
-  color: #888;
-}
-
 #revolution {
   padding: 0 0 20px;
 }
@@ -228,13 +232,17 @@ form .sep,
 
 #revolution button.disable {
   position: relative;
-  top: 3px;
+  top: 2px;
   background-color: #727272;
   border-color: #727272;
-  box-shadow: 0 2px 0 0 #5f5f5f;
+  box-shadow: 0 3px 0 0 #5f5f5f;
 }
 
 #revolution button.disable:active {
   top: 4px;
   box-shadow: 0 1px 0 0 #5f5f5f;
+}
+
+#revolution button:focus {
+  outline: none;
 }
