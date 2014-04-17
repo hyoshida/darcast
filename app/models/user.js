@@ -3,9 +3,9 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
-  code: String,
-  name: String,
-  active_flag: Boolean
+  code: { type: String, required: true },
+  name: { type: String, required: true, default: "Anonymous" },
+  active_flag: { type: Boolean, default: false },
 });
 
 UserSchema.virtual('attributes').get(function() {

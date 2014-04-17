@@ -33,8 +33,8 @@ $(function() {
     // stop form from submitting normally
     event.preventDefault();
 
-    var code = $('input.code').val();
-    var name = $('input.name').val();
+    var code = $.trim($('input.code').val());
+    var name = $.trim($('input.name').val()) || 'Anonymous';
 
     if (!validateIPaddress(code)) return;
 

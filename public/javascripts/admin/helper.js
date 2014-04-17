@@ -23,13 +23,13 @@
 function updateUserForMap(user) {
   var $user_map = $('#users_map [data-user-code="' + user.code + '"]');
   if ($user_map.length) {
-    $user_map.find('.name').text(user.name || 'Anonymous');
+    $user_map.find('.name').text(user.name);
     return;
   }
 
   var $user_code = $('<dt/>').addClass('code').text(user.code);
   var $user_sep = $('<dd/>').addClass('sep').text('@');
-  var $user_name = $('<dd/>').addClass('name').text(user.name || 'Anonymous');
+  var $user_name = $('<dd/>').addClass('name').text(user.name);
 
   var $show_field = $('<dl/>').addClass('show_field');
   $show_field.append($user_code);
@@ -74,16 +74,18 @@ function inputStart(element) {
 
 function inputComplete(input, input_cancel_flag) {
   input_cancel_flag = input_cancel_flag || false;
-  $input = $(input);
+  var $input = $(input);
+  var value = $.trim($(input).val());
 
   $element = $input.closest('.show_field').find('.hidden');
   $element.removeClass('hidden');
 
-  var code_invalid_flag = $input.attr('class').match(/code/) && !validateIPaddress($input.val());
-  input_cancel_flag = input_cancel_flag || code_invalid_flag;
+  var code_invalid_flag = $input.attr('class').match(/code/) && !validateIPaddress(value);
+  var input_blank_flag = (value.length == 0);
+  input_cancel_flag = input_cancel_flag || code_invalid_flag || input_blank_flag;
 
   if (!input_cancel_flag) {
-    $element.text($input.val());
+    $element.text(value);
     $element.trigger('change');
   }
 
