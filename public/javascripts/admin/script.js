@@ -42,6 +42,8 @@ $(function() {
     io.emit('user.new', JSON.stringify(attributes));
 
     $('input').val('');
+
+    updateUserForMap(attributes);
   });
 
   $(document).on('change', '.show_field :not(input).code, .show_field :not(input).name', function() {
