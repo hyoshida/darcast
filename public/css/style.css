@@ -23,6 +23,7 @@ input {
   outline: none;
 }
 
+
 ul {
   list-style: none;
 }
@@ -62,22 +63,28 @@ iframe {
   line-height: 150%;
 }
 
-.message {
+#messages .message {
   padding-bottom: 0.5em;
 }
 
-.name {
+#messages .name {
   margin-right: 0.5em;
   color: #888;
   font-weight: bold;
 }
 
-.time {
+#messages .name:before {
+  margin-right: 2px;
+  vertical-align: top;
+  content: "@";
+}
+
+#messages .time {
   color: #888;
   font-size: small;
 }
 
-.body {
+#messages .body {
   color: #444;
 }
 
@@ -115,6 +122,8 @@ iframe {
 }
 
 #users li:before {
+  margin-right: 2px;
+  vertical-align: middle;
   content: "@";
 }
 
@@ -146,4 +155,101 @@ iframe {
   #users {
     display: none;
   }
+}
+
+/* for admin */
+
+.hidden {
+  display: none !important;
+}
+
+#users_map {
+  padding: 10px;
+  color: #666;
+}
+
+#users_map input {
+  color: #000;
+  border: 1px solid #e43774;
+  box-sizing: border-box;
+}
+
+input.code,
+#users_map dt {
+  display: inline-block;
+  width: 20%;
+  text-align: right;
+}
+
+input.name,
+#users_map dd {
+  display: inline-block;
+  width: 75%;
+}
+
+form .sep,
+#users_map .sep {
+  display: inline-block;
+  color: #e43774;
+  width: 5%;
+  height: 25px;
+  line-height: 25px;
+  font-size: 1.5em;
+  vertical-align: middle;
+  text-align: center;
+}
+
+#users_map .sep {
+  color: #aaa;
+  font-weight: normal;
+}
+
+#revolution {
+  padding: 0 0 20px;
+}
+
+#revolution button {
+  cursor: pointer;
+  display: block;
+  margin: 0 auto;
+  width: 50%;
+  height: 50px;
+  line-height: 50px;
+  font-size: 1em;
+  font-weight: bold;
+  color: #fff;
+  background-color: #e43774;
+  border: 1px solid #e43774;
+  border-radius: 5px;
+  box-shadow: 0 5px 0 0 #a43774;
+}
+
+#revolution button:active {
+  position: relative;
+  top: 4px;
+  box-shadow: 0 1px 0 0 #a43774;
+}
+
+#revolution button.disable {
+  position: relative;
+  top: 2px;
+  background-color: #727272;
+  border-color: #727272;
+  box-shadow: 0 3px 0 0 #5f5f5f;
+}
+
+#revolution button.disable:active {
+  top: 4px;
+  box-shadow: 0 1px 0 0 #5f5f5f;
+}
+
+#revolution button:focus {
+  outline: none;
+}
+
+/* for Chrome */
+input[type="submit"].hidden {
+  display: block !important;
+  position: absolute;
+  top: -99999px;
 }

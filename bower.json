@@ -8,6 +8,7 @@
   ],
   "dependencies": {
     "jquery": "~2.1.0",
-    "jQuery-linkify": "~1.1.3"
+    "jQuery-linkify": "~1.1.3",
+    "LibIME": "geta6/libime.js"
   }
 }

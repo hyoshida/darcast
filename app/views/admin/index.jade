@@ -1,0 +1,23 @@
+extends ../layout
+
+block append js
+  script(src="/socket.io/socket.io.js")
+  script(src="/javascripts/admin/helper.js")
+  script(src="/javascripts/admin/script.js")
+
+block content
+  #nav
+    #counter
+    ul#users
+  #contents
+    form
+      input.code(type="text", placeholder="IP Address")
+      .sep @
+      input.name(type="text", placeholder="User name")
+      input.hidden(type="submit")
+    #users_map
+    #revolution
+      if share.display_real_name_flag
+        button.disable Disable PUBLIC mode
+      else
+        button Enable PUBLIC mode
