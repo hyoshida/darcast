@@ -246,3 +246,10 @@ form .sep,
 #revolution button:focus {
   outline: none;
 }
+
+/* for Chrome */
+input[type="submit"].hidden {
+  display: block !important;
+  position: absolute;
+  top: -99999px;
+}
