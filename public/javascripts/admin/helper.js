@@ -49,31 +49,49 @@ function inputStart(element) {
   $input.val($element.text());
   $element.addClass('hidden');
 
+  var imekeycount = 0;
   var ime = new LibIME($input);
   ime.onkeyup = function(args) {
     event = args[0];
+    switch (event.keyCode) {
+    // Enter
+    case 13:
+      if (ime.status == 2) inputComplete($input);
+      break;
+    // Esc
+    case 27:
+      if (imekeycount == 0) inputCancel($input);
+      imekeycount = 0;
+      return;
+    }
+
     switch (ime.status) {
-    case 2:
-      if (event.keyCode !== 13) return;
-      inputComplete($input);
+    case 0: imekeycount += 1; break;
+    case 1: imekeycount = 0; break;
     }
   }
 }
 
-function inputComplete(input) {
+function inputComplete(input, input_cancel_flag) {
+  input_cancel_flag = input_cancel_flag || false;
   $input = $(input);
 
   $element = $input.closest('.show_field').find('.hidden');
   $element.removeClass('hidden');
 
-  if ($input.attr('class').match(/code/) && !validateIPaddress($input.val())) {
-    $input.remove();
-    return;
+  var code_invalid_flag = $input.attr('class').match(/code/) && !validateIPaddress($input.val());
+  input_cancel_flag = input_cancel_flag || code_invalid_flag;
+
+  if (!input_cancel_flag) {
+    $element.text($input.val());
+    $element.trigger('change');
   }
 
-  $element.text($input.val());
-  $element.trigger('change');
   $input.remove();
+}
+
+function inputCancel(input) {
+  inputComplete(input, true);
 }
 
 function validateIPaddress(ipaddress) {
