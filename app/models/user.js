@@ -17,11 +17,11 @@ UserSchema.virtual('attributes').get(function() {
 });
 
 UserSchema.virtual('display_name').get(function() {
+  var name = "Anonymous";
   if (share.display_real_name_flag) {
-    return this.name || this.code;
-  } else {
-    return this.code;
+     name = this.name || name;
   }
+  return name;
 });
 
 mongoose.model('User', UserSchema);
