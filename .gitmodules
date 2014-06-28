@@ -1,0 +1,3 @@
+[submodule "yukkurid"]
+	path = yukkurid
+	url = https://github.com/masarakki/yukkurid.git

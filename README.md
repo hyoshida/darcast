@@ -7,6 +7,10 @@ yukkuri on web browser.
 * Node.js 0.11
 * MongoDB 2.2
 * [yukkurid](https://github.com/masarakki/yukkurid)
+  * ALSA (aplay command)
+  * mecab
+  * Ruby
+  * AquesTalk2.so
 
 ## Usage
 
@@ -17,10 +21,18 @@ yukkuri on web browser.
   bower install # (or `node_modules/.bin/bower install`)
   ```
 
-2. Run a server
+2. Install yukkurid
+
+  ```bash
+  git submodule update --init
+  bundle install
+  bundle exec rake unidic:install
+  ```
+
+3. Run a server
 
   ```bash
   npm start
   ```
 
-3. Plese open `http://127.0.0.1:8000/` in your browser.
+4. Plese open `http://127.0.0.1:8000/` in your browser.
