@@ -159,6 +159,12 @@ iframe {
 
 /* for admin */
 
+hr {
+  margin: 0 auto 20px;
+  border: 0;
+  border-top: 2px solid #ddd;
+}
+
 .hidden {
   display: none !important;
 }
@@ -204,11 +210,13 @@ form .sep,
   font-weight: normal;
 }
 
-#revolution {
+#revolution,
+#suside {
   padding: 0 0 20px;
 }
 
-#revolution button {
+#revolution button,
+#suside button {
   cursor: pointer;
   display: block;
   margin: 0 auto;
@@ -230,6 +238,7 @@ form .sep,
   box-shadow: 0 1px 0 0 #a43774;
 }
 
+
 #revolution button.disable {
   position: relative;
   top: 2px;
@@ -243,8 +252,21 @@ form .sep,
   box-shadow: 0 1px 0 0 #5f5f5f;
 }
 
-#revolution button:focus {
+#revolution button:focus,
+#suside button:focus {
   outline: none;
+}
+
+#suside button {
+  background-color: #c00;
+  border-color: #c00;
+  box-shadow: 0 5px 0 0 #900;
+}
+
+#suside button:active {
+  position: relative;
+  top: 4px;
+  box-shadow: 0 1px 0 0 #900;
 }
 
 /* for Chrome */

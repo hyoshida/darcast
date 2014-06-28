@@ -40,6 +40,7 @@ module.exports = function(app) {
 
   function userDisconnect(conditions) {
     User.findOne(conditions, function (err, user) {
+      if (!user) return;
       user.active_flag = false;
       user.save();
       app.io.broadcast('user.disconnect', user.attributes);
@@ -146,6 +147,15 @@ module.exports = function(app) {
         });
         app.io.broadcast('user.log', users_attributes);
       });
+    });
+  });
+
+  app.io.route('suside', function(req) {
+    Message.remove({}, function(err) {
+      console.log('*ALL Message REMOVED*')
+    });
+    User.remove({}, function(err) {
+      console.log('*ALL User REMOVED*')
     });
   });
 };

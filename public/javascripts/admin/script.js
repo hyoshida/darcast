@@ -71,6 +71,10 @@ $(function() {
 
     io.emit('mode.toggle');
   });
+
+  $('#suside button').on('click', function() {
+    if (confirm('Are you sure?')) io.emit('suside');
+  });
 });
 
 $(document).on('click', '.show_field :not(input).code, .show_field :not(input).name', function() {
