@@ -6,35 +6,35 @@ var config = {
   development: {
     root: rootPath,
     app: {
-      name: 'anpub-chat'
+      name: 'darcast'
     },
     port: 8000,
-    db: 'mongodb://localhost/anpub-chat-development',
+    db: 'mongodb://localhost/darcast-development',
     basicAuth: {
       user: 'admin',
-      admin: 'anpub123'
+      admin: 'darcast123'
     }
   },
 
   test: {
     root: rootPath,
     app: {
-      name: 'anpub-chat'
+      name: 'darcast'
     },
     port: 8000,
-    db: 'mongodb://localhost/anpub-chat-test'
+    db: 'mongodb://localhost/darcast-test'
   },
 
   production: {
     root: rootPath,
     app: {
-      name: 'anpub-chat'
+      name: 'darcast'
     },
     port: 8000,
-    db: 'mongodb://localhost/anpub-chat-production',
+    db: 'mongodb://localhost/darcast-production',
     basicAuth: {
       user: 'admin',
-      admin: 'anpub123'
+      admin: 'darcast123'
     }
   }
 };

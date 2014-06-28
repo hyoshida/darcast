@@ -1,12 +1,12 @@
 {
   "author": "YOSHIDA Hiroki <hyoshida@appirits.com>",
-  "name": "anpub-chat",
-  "description": "Anonymous that real name public chat.",
+  "name": "darcast",
+  "description": "yukkuri on web browser.",
   "version": "0.0.1",
-  "homepage": "https://github.com/hyoshida/anpub-chat",
+  "homepage": "https://github.com/hyoshida/darcast",
   "repository": {
     "type": "git",
-    "url": "git://github.com/hyoshida/anpub-chat.git"
+    "url": "git://github.com/hyoshida/darcast.git"
   },
   "scripts": {
     "start": "node app.js"

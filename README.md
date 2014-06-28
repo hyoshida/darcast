@@ -1,11 +1,12 @@
-# anpub-chat
+# darcast
 
-Anonymous that real name public chat.
+yukkuri on web browser.
 
 ## Requirements
 
 * Node.js 0.11
 * MongoDB 2.2
+* [yukkurid](https://github.com/masarakki/yukkurid)
 
 ## Usage
 
