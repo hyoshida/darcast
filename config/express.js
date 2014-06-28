@@ -15,5 +15,10 @@ module.exports = function(app, config) {
     app.use(function(req, res) {
       res.status(404).render('404', { title: '404' });
     });
+    if (config.basicAuth) {
+      app.all('/admin', express.basicAuth(function(user_name, password) {
+        return config.basicAuth[user_name] && config.basicAuth[user_name] === password;
+      }));
+    }
   });
 };

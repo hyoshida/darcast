@@ -9,7 +9,11 @@ var config = {
       name: 'anpub-chat'
     },
     port: 8000,
-    db: 'mongodb://localhost/anpub-chat-development'
+    db: 'mongodb://localhost/anpub-chat-development',
+    basicAuth: {
+      user: 'admin',
+      admin: 'anpub123'
+    }
   },
 
   test: {
@@ -27,7 +31,11 @@ var config = {
       name: 'anpub-chat'
     },
     port: 8000,
-    db: 'mongodb://localhost/anpub-chat-production'
+    db: 'mongodb://localhost/anpub-chat-production',
+    basicAuth: {
+      user: 'admin',
+      admin: 'anpub123'
+    }
   }
 };
 
