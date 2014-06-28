@@ -4,6 +4,10 @@ var Message = mongoose.model('Message');
 var Setting = mongoose.model('Setting');
 var sanitize = require('validator');
 var share = require('../config/share');
+var fs = require('fs');
+var crypto = require('crypto');
+var exec = require('child_process').exec;
+var path = require('path');
 
 module.exports = function(app) {
 
@@ -48,6 +52,31 @@ module.exports = function(app) {
     });
   }
 
+  function root() {
+    // from http://stackoverflow.com/questions/10265798/determine-project-root-from-a-running-node-js-application
+    return path.dirname(require.main.filename);
+  }
+
+  function say(message) {
+    var wav_file_name = crypto.createHash('md5').update(message, 'utf8').digest('hex') + '.wav';
+    var wav_file_path = root() + '/public/' + share.media_path + '/' + wav_file_name;
+    make_wave_file(message, wav_file_path, function() {
+      app.io.broadcast('say', { wav_file_path: '/' + share.media_path + '/' + wav_file_name });
+    });
+  }
+
+  function make_wave_file(message, wav_file_path, callback) {
+    if (fs.existsSync(wav_file_path)) {
+      callback();
+      return;
+    }
+    // TODO: escape command injection
+    exec("cd " + root() + " && echo '" + message + "' | " + share.yukkuri_bin + " > " + wav_file_path, function (err, stdout, stderr) {
+      if (err) console.log(err);
+      callback();
+    });
+  }
+
   app.io.sockets.on('connection', function(req) {
     var user_code = ipaddress(req);
 
@@ -86,6 +115,7 @@ module.exports = function(app) {
       message.save();
 
       app.io.broadcast('talk', { user: user.attributes, message: message_body, created_at: datestring(new Date) });
+      say(message_body);
 
       console.log('talk: @' + user.code + ' say ' + message_body);
     });

@@ -41,6 +41,13 @@ $(function() {
     updateCounter();
   });
 
+  // Listen for say event.
+  io.on('say', function(data) {
+    console.log('play: ' + data.wav_file_path);
+    var audio = new Audio(data.wav_file_path);
+    audio.play();
+  });
+
   // Emit talk event.
   $('form').submit(function(event) {
     // stop form from submitting normally
