@@ -8,6 +8,9 @@ block content
   #nav
     #counter
     ul#users
+    #audio
+      label(for="volume") Volume:
+      input.volume(type="range",min="0",max="1",step="0.01",value="1")
   #contents
     form
       input(placeholder="Please type your message")
