@@ -1,7 +1,7 @@
 function imageify($target) {
   $target.find('a').each(function() {
     url = $(this).text();
-    if (!url.match(/\.(jpg|jpeg|gif|png)$/)) return;
+    if (!url.toLowerCase().match(/\.(jpg|jpeg|gif|png)$/)) return;
 
     $image = $('<img/>').attr('src', url);
     $(this).html($image);
