@@ -111,6 +111,8 @@ module.exports = function(app) {
 
     var user_code = ipaddress(req);
     User.findOne({ code: user_code }, function(err, user) {
+      if (!user) return;
+
       var message = new Message({ user: user, body: message_body });
       message.save();
 
